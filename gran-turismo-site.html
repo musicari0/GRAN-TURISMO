@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gran Turismo · Curaduría Sonora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-intro: #dcded1;
+    --c-diag: #2b3595;
+    --c-prop: #ed1c24;
+    --c-brand: #054e21;
+    --c-inver: #c8a1f0;
+    --negro: #000;
+    --blanco: #fff;
+    --gris-texto: #1a1a1a;
+    --gris-medio: #6a6a6a;
+    --gris-suave: #9a9a9a;
+    --linea: #e6e6e6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: var(--negro);
+    background: var(--blanco);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1;
+    overflow-x: hidden;
+  }
+
+  button { font-family: inherit; }
+
+  /* ================================================
+     MENÚ PRINCIPAL
+  ================================================ */
+  .menu-principal {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .menu-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 5vw;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: var(--negro);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: clamp(42px, 8.5vw, 120px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+    text-align: left;
+    gap: 3vw;
+    transition: padding-left 0.2s ease;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .menu-item:hover { padding-left: 7vw; }
+
+  .menu-item .triangle {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 0.55em solid currentColor;
+    border-top: 0.35em solid transparent;
+    border-bottom: 0.35em solid transparent;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .menu-item:hover .triangle { transform: translateX(0.3em); }
+
+  .menu-item[data-section="intro"] { background: var(--c-intro); }
+  .menu-item[data-section="diagnostico"] { background: var(--c-diag); }
+  .menu-item[data-section="propuesta"] { background: var(--c-prop); }
+  .menu-item[data-section="brand"] { background: var(--c-brand); }
+  .menu-item[data-section="inversion"] { background: var(--c-inver); }
+
+  .menu-brand {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    z-index: 100;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: var(--blanco);
+  }
+
+  .menu-firma {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    z-index: 100;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: var(--blanco);
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  .menu-firma span { display: block; font-weight: 700; }
+
+  /* ================================================
+     SECCIONES INTERNAS
+  ================================================ */
+  .seccion {
+    display: none;
+    min-height: 100vh;
+    background: var(--blanco);
+    color: var(--negro);
+    animation: fadeIn 0.25s ease;
+  }
+
+  .seccion.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .seccion-header {
+    position: sticky;
+    top: 0;
+    background: var(--blanco);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .brand-mark {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+    color: var(--negro);
+  }
+
+  .brand-mark::after {
+    content: "®";
+    font-size: 0.65em;
+    vertical-align: super;
+    margin-left: 1px;
+    font-weight: 500;
+  }
+
+  .header-titulo-mini {
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--gris-medio);
+    text-transform: uppercase;
+  }
+
+  .header-nav {
+    display: flex;
+    gap: 0;
+    background: var(--negro);
+  }
+
+  .header-nav button {
+    background: var(--negro);
+    color: var(--gris-suave);
+    border: none;
+    padding: 7px 12px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: -0.01em;
+    transition: color 0.15s;
+  }
+
+  .header-nav button:hover { color: var(--blanco); }
+  .header-nav button.actual { font-weight: 700; }
+  .header-nav button.actual[data-color="intro"] { background: var(--c-intro); color: var(--negro); }
+  .header-nav button.actual[data-color="diagnostico"] { background: var(--c-diag); color: var(--blanco); }
+  .header-nav button.actual[data-color="propuesta"] { background: var(--c-prop); color: var(--blanco); }
+  .header-nav button.actual[data-color="brand"] { background: var(--c-brand); color: var(--blanco); }
+  .header-nav button.actual[data-color="inversion"] { background: var(--c-inver); color: var(--negro); }
+
+  /* Hero de sección */
+  .seccion-hero {
+    padding: 60px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .seccion-numero {
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--gris-medio);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .seccion-titulo {
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 68px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--negro);
+  }
+
+  .seccion-desc {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--negro);
+    padding-top: 6px;
+  }
+
+  .seccion-desc p { margin-bottom: 14px; }
+  .seccion-desc p:last-child { margin-bottom: 0; }
+
+  /* Metadata */
+  .metadata {
+    padding: 40px 24px 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 60px;
+  }
+
+  .metadata-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--negro);
+    margin-bottom: 10px;
+  }
+
+  .metadata-value {
+    font-weight: 400;
+    font-size: 14.5px;
+    color: var(--negro);
+    line-height: 1.55;
+  }
+
+  .metadata-value.multi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+  }
+
+  .metadata-square {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .metadata-square::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: var(--negro);
+    flex-shrink: 0;
+  }
+
+  .metadata-square.sq-diag::before { background: var(--c-diag); }
+  .metadata-square.sq-prop::before { background: var(--c-prop); }
+  .metadata-square.sq-brand::before { background: var(--c-brand); }
+  .metadata-square.sq-inver::before { background: var(--c-inver); }
+
+  /* Bloques */
+  .bloque-contenido {
+    padding: 80px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .bloque-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    align-items: end;
+  }
+
+  .bloque-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--negro);
+    margin-bottom: 16px;
+  }
+
+  .bloque-titulo {
+    font-weight: 500;
+    font-size: clamp(28px, 3.5vw, 48px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--negro);
+  }
+
+  .bloque-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--negro);
+  }
+
+  .bloque-desc p { margin-bottom: 14px; }
+  .bloque-desc p:last-child { margin-bottom: 0; }
+
+  /* DIAGNÓSTICO */
+  .escenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--negro);
+    border-left: 1px solid var(--negro);
+    max-width: 1400px;
+    margin: 0 auto 80px;
+  }
+
+  .escenario {
+    padding: 32px 28px;
+    border-right: 1px solid var(--negro);
+    border-bottom: 1px solid var(--negro);
+  }
+
+  .escenario-numero {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--c-diag);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .escenario-titulo {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--negro);
+    margin-bottom: 14px;
+  }
+
+  .escenario-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--negro);
+  }
+
+  .citas-container {
+    padding: 20px 24px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .cita-item {
+    padding: 30px 0;
+    border-top: 1px solid var(--negro);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+
+  .cita-item:last-child { border-bottom: 1px solid var(--negro); }
+
+  .cita-numero {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-diag);
+  }
+
+  .cita-contenido {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .cita-contenido strong { font-weight: 700; }
+
+  .cita-fuente {
+    font-size: 12px;
+    color: var(--gris-medio);
+    margin-top: 8px;
+  }
+
+  /* PROPUESTA */
+  .ejes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--negro);
+    border-left: 1px solid var(--negro);
+    max-width: 1400px;
+    margin: 0 auto 0;
+  }
+
+  .eje {
+    padding: 40px 28px 32px;
+    border-right: 1px solid var(--negro);
+    border-bottom: 1px solid var(--negro);
+  }
+
+  .eje-numero {
+    font-weight: 800;
+    font-size: 72px;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--c-prop);
+    margin-bottom: 20px;
+  }
+
+  .eje-titulo {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--negro);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .eje-desc {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .claim-bloque {
+    padding: 100px 24px;
+    background: var(--c-prop);
+    color: var(--blanco);
+  }
+
+  .claim-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .claim-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blanco);
+    margin-bottom: 30px;
+    opacity: 0.85;
+  }
+
+  .claim-frase {
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 56px);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    color: var(--blanco);
+    max-width: 90%;
+  }
+
+  /* BRAND BOOK */
+  .manifiesto {
+    padding: 100px 24px;
+    background: var(--c-brand);
+    color: var(--blanco);
+  }
+
+  .manifiesto-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .manifiesto-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blanco);
+    margin-bottom: 30px;
+    opacity: 0.85;
+  }
+
+  .manifiesto-frase {
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 56px);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    color: var(--blanco);
+    max-width: 90%;
+  }
+
+  .paleta-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .paleta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--negro);
+  }
+
+  .paleta-col {
+    padding: 32px 28px;
+    background: var(--blanco);
+  }
+
+  .paleta-col + .paleta-col {
+    border-left: 1px solid var(--negro);
+  }
+
+  .paleta-titulo {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--negro);
+  }
+
+  .paleta-titulo.si { color: var(--c-brand); }
+
+  .paleta-lista { list-style: none; }
+
+  .paleta-lista li {
+    padding: 6px 0 6px 20px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .paleta-col.si li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--c-brand);
+    font-weight: 700;
+  }
+
+  .paleta-col.no li::before {
+    content: "×";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--negro);
+    font-weight: 700;
+  }
+
+  /* Tiendas */
+  .tiendas-header {
+    padding: 80px 24px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-top: 1px solid var(--negro);
+  }
+
+  .tienda-card {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    border-top: 1px solid var(--negro);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .tienda-card:last-of-type {
+    border-bottom: 1px solid var(--negro);
+  }
+
+  .tienda-numero {
+    font-weight: 800;
+    font-size: 42px;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--negro);
+  }
+
+  .tienda-info { padding-top: 4px; }
+
+  .tienda-nombre {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--negro);
+    margin-bottom: 10px;
+  }
+
+  .tienda-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 12.5px;
+    color: var(--gris-medio);
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+  }
+
+  .tienda-metadata span::after {
+    content: " ·";
+    margin-left: 12px;
+    color: var(--gris-suave);
+  }
+
+  .tienda-metadata span:last-child::after { content: ""; }
+
+  .tienda-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--negro);
+    color: var(--blanco);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tienda-mood-label {
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c-brand);
+    margin-bottom: 8px;
+  }
+
+  .tienda-mood {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--negro);
+    margin-bottom: 20px;
+  }
+
+  .tienda-detalle { padding-top: 4px; }
+
+  .tienda-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--negro);
+    border: 1px solid var(--negro);
+    font-weight: 500;
+  }
+
+  .tienda-placeholder-label {
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris-medio);
+    margin-bottom: 10px;
+  }
+
+  .tienda-placeholder {
+    padding: 16px;
+    border: 1px dashed var(--c-brand);
+    background: rgba(5, 78, 33, 0.03);
+    font-size: 12px;
+    color: var(--gris-medio);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .tienda-placeholder::before {
+    content: "[ ";
+    color: var(--c-brand);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .tienda-placeholder::after {
+    content: " ]";
+    color: var(--c-brand);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .firma-transversal {
+    padding: 80px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-top: 1px solid var(--negro);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .firma-desc-block {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .firma-desc-block p { margin-bottom: 14px; }
+
+  .firma-transversal-placeholder {
+    padding: 30px;
+    border: 1px dashed var(--c-brand);
+    background: rgba(5, 78, 33, 0.03);
+    font-size: 13px;
+    color: var(--gris-medio);
+    font-style: italic;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* INVERSIÓN */
+  .metodologia-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .etapa {
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 40px;
+    border-top: 1px solid var(--negro);
+  }
+
+  .etapa:last-child { border-bottom: 1px solid var(--negro); }
+
+  .etapa-num {
+    font-weight: 800;
+    font-size: 56px;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--negro);
+  }
+
+  .etapa-info h3 {
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris-medio);
+    margin-bottom: 8px;
+  }
+
+  .etapa-info h2 {
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--negro);
+    margin-bottom: 14px;
+  }
+
+  .etapa-info p {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .etapa-entregables { padding-top: 4px; }
+
+  .etapa-entregables-label {
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris-medio);
+    margin-bottom: 12px;
+  }
+
+  .etapa-entregables ul { list-style: none; }
+
+  .etapa-entregables li {
+    padding: 4px 0 4px 16px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .etapa-entregables li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    color: var(--negro);
+    font-weight: 500;
+  }
+
+  .cronograma {
+    padding: 60px 24px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-top: 1px solid var(--negro);
+  }
+
+  .cronograma-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--negro);
+    margin-bottom: 30px;
+  }
+
+  .cronograma-timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto 1fr;
+    align-items: stretch;
+    border: 1px solid var(--negro);
+  }
+
+  .crono-item {
+    padding: 24px 20px;
+    border-right: 1px solid var(--negro);
+    background: var(--blanco);
+  }
+
+  .crono-item:last-child { border-right: none; }
+
+  .crono-item-hito {
+    background: var(--c-inver);
+    padding: 24px 22px;
+    border-right: 1px solid var(--negro);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .crono-num {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris-medio);
+    margin-bottom: 8px;
+  }
+
+  .crono-titulo {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--negro);
+  }
+
+  .crono-item-hito .crono-num {
+    color: var(--negro);
+    opacity: 0.7;
+  }
+
+  .crono-item-hito .crono-titulo { font-weight: 700; }
+
+  .montos-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .montos-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--negro);
+  }
+
+  .monto-card {
+    padding: 50px 32px;
+    background: var(--blanco);
+  }
+
+  .monto-card + .monto-card {
+    border-left: 1px solid var(--negro);
+  }
+
+  .monto-card.principal {
+    background: var(--negro);
+    color: var(--blanco);
+  }
+
+  .monto-tipo {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .monto-cifra {
+    font-weight: 800;
+    font-size: clamp(60px, 8vw, 110px);
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    color: inherit;
+    margin-bottom: 6px;
+  }
+
+  .monto-cifra sup {
+    font-size: 0.3em;
+    vertical-align: super;
+    font-weight: 500;
+    color: inherit;
+    opacity: 0.7;
+    margin-right: 4px;
+  }
+
+  .monto-frecuencia {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: inherit;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .monto-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: inherit;
+    padding-top: 20px;
+    border-top: 1px solid currentColor;
+    opacity: 0.9;
+  }
+
+  .monto-desc strong {
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .monto-card.principal .monto-desc strong { color: var(--c-inver); }
+
+  .horizonte-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    border-top: 1px solid var(--negro);
+  }
+
+  .horizonte-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--negro);
+    margin-bottom: 30px;
+  }
+
+  .fase-item {
+    padding: 28px 0;
+    display: grid;
+    grid-template-columns: 60px 1fr 2fr;
+    gap: 30px;
+    border-top: 1px solid var(--negro);
+    align-items: start;
+  }
+
+  .fase-item:last-child { border-bottom: 1px solid var(--negro); }
+
+  .fase-num {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--gris-medio);
+  }
+
+  .fase-titulo {
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--negro);
+  }
+
+  .fase-desc {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* Footer */
+  .seccion-footer {
+    border-top: 1px solid var(--negro);
+    padding: 40px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-firma {
+    font-size: 12px;
+    color: var(--gris-medio);
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  .footer-firma strong {
+    font-weight: 700;
+    color: var(--negro);
+    display: block;
+  }
+
+  .footer-next {
+    background: var(--negro);
+    color: var(--blanco);
+    border: none;
+    padding: 14px 22px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+
+  .footer-next:hover { background: var(--gris-texto); }
+
+  .footer-next .next-arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid var(--blanco);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .seccion-hero,
+    .metadata,
+    .bloque-header,
+    .firma-transversal {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .escenarios-grid { grid-template-columns: 1fr; }
+    .ejes-grid { grid-template-columns: 1fr; }
+    .paleta-grid { grid-template-columns: 1fr; }
+    .paleta-col + .paleta-col { border-left: none; border-top: 1px solid var(--negro); }
+    .tienda-card { grid-template-columns: 50px 1fr; gap: 24px; }
+    .tienda-detalle { grid-column: 1 / -1; }
+    .etapa { grid-template-columns: 60px 1fr; gap: 24px; }
+    .etapa-entregables { grid-column: 1 / -1; }
+    .cronograma-timeline { grid-template-columns: 1fr; }
+    .crono-item, .crono-item-hito {
+      border-right: none;
+      border-bottom: 1px solid var(--negro);
+    }
+    .crono-item:last-child, .crono-item-hito:last-child { border-bottom: none; }
+    .montos-container { grid-template-columns: 1fr; }
+    .monto-card + .monto-card { border-left: none; border-top: 1px solid var(--negro); }
+    .cita-item { grid-template-columns: 1fr; gap: 16px; }
+    .fase-item { grid-template-columns: 40px 1fr; gap: 20px; }
+    .fase-desc { grid-column: 1 / -1; }
+    .header-nav button:not(.actual) { display: none; }
+    .header-titulo-mini { display: none; }
+  }
+
+  @media (max-width: 500px) {
+    .menu-item { padding: 0 4vw; gap: 4vw; font-size: 36px; }
+    .seccion-hero { padding: 40px 20px 60px; }
+    .bloque-contenido { padding: 60px 20px; }
+    .metadata { padding: 30px 20px 60px; grid-template-columns: 1fr; gap: 30px; }
+    .seccion-footer { flex-direction: column; gap: 24px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MENÚ PRINCIPAL -->
+<div id="menu" class="menu-principal">
+  <div class="menu-brand">GT.®</div>
+  <div class="menu-firma">
+    <span>Curated by Federico Rodríguez</span>
+    @musicari0
+  </div>
+
+  <button class="menu-item" data-section="intro"><span class="triangle"></span>INTRO</button>
+  <button class="menu-item" data-section="diagnostico"><span class="triangle"></span>DIAGNÓSTICO</button>
+  <button class="menu-item" data-section="propuesta"><span class="triangle"></span>PROPUESTA</button>
+  <button class="menu-item" data-section="brand"><span class="triangle"></span>BRAND BOOK</button>
+  <button class="menu-item" data-section="inversion"><span class="triangle"></span>INVERSIÓN</button>
+</div>
+
+<!-- SECCIÓN INTRO -->
+<div id="s-intro" class="seccion">
+  <header class="seccion-header">
+    <div class="header-left">
+      <div class="brand-mark">GT.</div>
+      <div class="header-titulo-mini">Intro</div>
+    </div>
+    <nav class="header-nav">
+      <button data-goto="menu">MENÚ</button>
+      <button class="actual" data-color="intro">INTRO</button>
+      <button data-goto="diagnostico">DIAGNÓSTICO ▶</button>
+    </nav>
+  </header>
+
+  <div class="seccion-body">
+    <section class="seccion-hero">
+      <div>
+        <div class="seccion-numero">01 / Intro</div>
+        <h1 class="seccion-titulo">Gran Turismo suena como la mujer que camina en sus zapatos.</h1>
+      </div>
+      <div class="seccion-desc">
+        <p>Después de setenta y cinco años calzando a la mujer venezolana, hay una dimensión de la marca que hasta hoy no ha sido intencionalmente diseñada: la dimensión sonora. La música que ambienta el momento en que una clienta entra a probarse un par de zapatos para su próxima boda, su primer día en un nuevo trabajo, o simplemente para acompañarla en una tarde de sábado.</p>
+        <p>Esta propuesta plantea que Gran Turismo, en un momento donde el 85–90% del calzado disponible en Venezuela es importado y donde cada franquicia internacional que abre suena idéntica a la anterior, tiene una oportunidad estratégica singular: diseñar una identidad sonora propia que refuerce, en cada tienda del país, el argumento fundacional de la casa.</p>
+      </div>
+    </section>
+
+    <div class="metadata">
+      <div>
+        <div class="metadata-label">Servicios contemplados</div>
+        <div class="metadata-value multi">
+          <span class="metadata-square sq-diag">Diagnóstico sonoro</span>
+          <span class="metadata-square sq-prop">Identidad de marca</span>
+          <span class="metadata-square sq-brand">Curaduría musical</span>
+          <span class="metadata-square sq-inver">Implementación</span>
+        </div>
+      </div>
+      <div>
+        <div class="metadata-label">Cliente</div>
+        <div class="metadata-value">Gran Turismo · Casa de Calzado Venezolano</div>
+      </div>
+      <div>
+        <div class="metadata-label">Curador</div>
+        <div class="metadata-value">Federico Rodríguez · @musicari0</div>
+      </div>
+      <div>
+        <div class="metadata-label">Alcance</div>
+        <div class="metadata-value">12 tiendas · 4 ciudades · Caracas, Barquisimeto, Maracay, Valencia</div>
+      </div>
+      <div>
+        <div class="metadata-label">Documento</div>
+        <div class="metadata-value">Propuesta comercial 2026 · v.1</div>
+      </div>
+      <div>
+        <div class="metadata-label">Estructura del documento</div>
+        <div class="metadata-value">Diagnóstico · Propuesta · Brand Book · Inversión</div>
+      </div>
+    </div>
+
+    <footer class="seccion-footer">
+      <div class="footer-firma">Curated by <strong>Federico Rodríguez</strong>@musicari0</div>
+      <button class="footer-next" data-goto="diagnostico">Continuar a Diagnóstico<span class="next-arrow"></span></button>
+    </footer>
+  </div>
+</div>
+
+<!-- SECCIÓN DIAGNÓSTICO -->
+<div id="s-diagnostico" class="seccion">
+  <header class="seccion-header">
+    <div class="header-left">
+      <div class="brand-mark">GT.</div>
+      <div class="header-titulo-mini">Diagnóstico</div>
+    </div>
+    <nav class="header-nav">
+      <button data-goto="menu">MENÚ</button>
+      <button data-goto="intro">◀ INTRO</button>
+      <button class="actual" data-color="diagnostico">DIAGNÓSTICO</button>
+      <button data-goto="propuesta">PROPUESTA ▶</button>
+    </nav>
+  </header>
+
+  <div class="seccion-body">
+    <section class="seccion-hero">
+      <div>
+        <div class="seccion-numero">02 / Diagnóstico</div>
+        <h1 class="seccion-titulo">El sonido del retail de moda hoy en Venezuela.</h1>
+      </div>
+      <div class="seccion-desc">
+        <p>En un sector reactivado, con nuevas aperturas comerciales durante 2025 y 2026, con el retorno de franquicias internacionales y un consumidor cada vez más exigente, casi ninguna marca de calzado o moda en Venezuela ha pensado el sonido de sus tiendas como una decisión estratégica.</p>
+        <p>La música que suena hoy en la mayoría de puntos de venta se puede clasificar en cuatro tipos, todos problemáticos.</p>
+      </div>
+    </section>
+
+    <div class="escenarios-grid">
+      <div class="escenario">
+        <div class="escenario-numero">Escenario 01</div>
+        <div class="escenario-titulo">Playlist genérica de Spotify</div>
+        <div class="escenario-desc">Alguien puso "Top 50 Global" o "Pop Latino" y lo dejó ahí. Sin curaduría, sin diferenciación, sin relación con la marca ni con el momento de compra. La clienta entra a una marca venezolana y escucha exactamente lo mismo que en la tienda de al lado.</div>
+      </div>
+      <div class="escenario">
+        <div class="escenario-numero">Escenario 02</div>
+        <div class="escenario-titulo">Radio comercial de fondo</div>
+        <div class="escenario-desc">Un aparato encendido en una emisora local. Interrumpen cortes comerciales de otras marcas, noticias, voces de locutores. La atmósfera de la tienda queda a merced de la parrilla de una radio ajena.</div>
+      </div>
+      <div class="escenario">
+        <div class="escenario-numero">Escenario 03</div>
+        <div class="escenario-titulo">Silencio o música casi imperceptible</div>
+        <div class="escenario-desc">Volumen tan bajo que se pierde. El sonido dominante termina siendo el aire acondicionado, la conversación del pasillo del centro comercial, o las voces del personal. Se pierde una capa completa de experiencia de marca.</div>
+      </div>
+      <div class="escenario">
+        <div class="escenario-numero">Escenario 04</div>
+        <div class="escenario-titulo">Playlist personal del personal</div>
+        <div class="escenario-desc">Cada vendedora pone lo que le gusta. Lunes suena reggaetón, martes vallenato, miércoles K-pop. La marca no tiene voz sonora propia; suena distinto cada día según quién esté de turno.</div>
+      </div>
+    </div>
+
+    <div class="bloque-contenido" style="padding-top: 20px;">
+      <div class="bloque-header">
+        <div>
+          <div class="bloque-label">La oportunidad</div>
+          <h2 class="bloque-titulo">La música es la herramienta estratégica más subutilizada en el retail venezolano.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>Cuando el 85–90% del calzado disponible en Venezuela es importado, y cuando el sesgo cultural "lo importado es mejor" sigue arraigado en la consumidora venezolana, cada elemento de la experiencia de marca de Gran Turismo debe reforzar activamente el argumento contrario: lo hecho aquí es tan bueno o mejor que lo importado.</p>
+          <p>Ninguna de las marcas competidoras identificadas — ni las venezolanas (BH Fashion, Sifrinas, Basinger, Calzado Total), ni las internacionales presentes en el país (Forever 21, Zara, Aldo) — está aplicando este marco. Es una ventaja abierta.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="citas-container">
+      <div class="cita-item">
+        <div class="cita-numero">Estudio 01</div>
+        <div class="cita-contenido">
+          Música congruente con el origen del producto <strong>amplifica sus ventas hasta un 330%</strong>. Aplicado a Gran Turismo: música venezolana curada en tienda venezolana amplifica la percepción de valor del producto venezolano. Es un argumento comercial, no cultural.
+          <div class="cita-fuente">North, Hargreaves &amp; McKendrick — Nature (1999)</div>
+        </div>
+      </div>
+      <div class="cita-item">
+        <div class="cita-numero">Estudio 02</div>
+        <div class="cita-contenido">
+          La música de tempo controlado puede <strong>aumentar el tiempo de permanencia en tienda hasta un 38%</strong>, con impacto directo en el ticket promedio de compra.
+          <div class="cita-fuente">Ronald E. Milliman — Journal of Marketing (1982)</div>
+        </div>
+      </div>
+      <div class="cita-item">
+        <div class="cita-numero">Estudio 03</div>
+        <div class="cita-contenido">
+          La música con criterio aspiracional <strong>lleva al consumidor a elegir productos de mayor gama</strong> dentro del mismo portafolio. Alza sostenida del ticket promedio sin requerir cambios en el producto ni en el precio.
+          <div class="cita-fuente">Areni &amp; Kim — Advances in Consumer Research (1993)</div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="seccion-footer">
+      <div class="footer-firma">Curated by <strong>Federico Rodríguez</strong>@musicari0</div>
+      <button class="footer-next" data-goto="propuesta">Continuar a Propuesta<span class="next-arrow"></span></button>
+    </footer>
+  </div>
+</div>
+
+<!-- SECCIÓN PROPUESTA -->
+<div id="s-propuesta" class="seccion">
+  <header class="seccion-header">
+    <div class="header-left">
+      <div class="brand-mark">GT.</div>
+      <div class="header-titulo-mini">Propuesta</div>
+    </div>
+    <nav class="header-nav">
+      <button data-goto="menu">MENÚ</button>
+      <button data-goto="diagnostico">◀ DIAGNÓSTICO</button>
+      <button class="actual" data-color="propuesta">PROPUESTA</button>
+      <button data-goto="brand">BRAND BOOK ▶</button>
+    </nav>
+  </header>
+
+  <div class="seccion-body">
+    <section class="seccion-hero">
+      <div>
+        <div class="seccion-numero">03 / Propuesta</div>
+        <h1 class="seccion-titulo">De música de retail a curaduría sonora de marca.</h1>
+      </div>
+      <div class="seccion-desc">
+        <p>Diseñar y ejecutar un sistema sonoro que permita a Gran Turismo tener, por primera vez, una voz sonora reconocible y coherente en sus 12 tiendas, sin sacrificar la especificidad de cada punto de venta.</p>
+        <p>La propuesta parte de una convicción: no todas las tiendas de Gran Turismo deben sonar igual. Y al mismo tiempo, todas deben compartir una identidad sonora común. Esa combinación —variedad específica por tienda + coherencia global de marca— es lo que ninguna playlist automática puede replicar.</p>
+      </div>
+    </section>
+
+    <div class="bloque-contenido" style="padding-top: 20px; padding-bottom: 40px;">
+      <div class="bloque-header">
+        <div>
+          <div class="bloque-label">El sistema</div>
+          <h2 class="bloque-titulo">Tres ejes cruzados por cada tienda.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>La propuesta sonora se construye cruzando tres ejes de análisis por cada punto de venta. Este marco convierte cada playlist en una decisión estratégica defendible, no en una preferencia estética arbitraria.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ejes-grid">
+      <div class="eje">
+        <div class="eje-numero">01</div>
+        <div class="eje-titulo">Categoría socioeconómica</div>
+        <div class="eje-desc">B, B/C, C, C/D. Define el perfil aspiracional y los códigos musicales culturales identificables de la clienta de cada punto de venta.</div>
+      </div>
+      <div class="eje">
+        <div class="eje-numero">02</div>
+        <div class="eje-titulo">Geografía y cultura</div>
+        <div class="eje-desc">Caracas, Valencia, Barquisimeto, Maracay. Cada ciudad tiene su relación con lo venezolano, lo internacional, lo urbano y lo tradicional.</div>
+      </div>
+      <div class="eje">
+        <div class="eje-numero">03</div>
+        <div class="eje-titulo">Formato de tienda</div>
+        <div class="eje-desc">Metros cuadrados, mall o calle, flujo de tránsito. Determina el ritmo de compra y el tiempo promedio de permanencia esperado.</div>
+      </div>
+    </div>
+
+    <div class="claim-bloque">
+      <div class="claim-inner">
+        <div class="claim-label">Convicción central</div>
+        <div class="claim-frase">Cada tienda de Gran Turismo debe sonar como Gran Turismo, pero también debe sonar como la ciudad y la clienta que la habita.</div>
+      </div>
+    </div>
+
+    <footer class="seccion-footer">
+      <div class="footer-firma">Curated by <strong>Federico Rodríguez</strong>@musicari0</div>
+      <button class="footer-next" data-goto="brand">Continuar a Brand Book<span class="next-arrow"></span></button>
+    </footer>
+  </div>
+</div>
+
+<!-- SECCIÓN BRAND BOOK -->
+<div id="s-brand" class="seccion">
+  <header class="seccion-header">
+    <div class="header-left">
+      <div class="brand-mark">GT.</div>
+      <div class="header-titulo-mini">Brand Book</div>
+    </div>
+    <nav class="header-nav">
+      <button data-goto="menu">MENÚ</button>
+      <button data-goto="propuesta">◀ PROPUESTA</button>
+      <button class="actual" data-color="brand">BRAND BOOK</button>
+      <button data-goto="inversion">INVERSIÓN ▶</button>
+    </nav>
+  </header>
+
+  <div class="seccion-body">
+    <section class="seccion-hero">
+      <div>
+        <div class="seccion-numero">04 / Brand Book</div>
+        <h1 class="seccion-titulo">El sistema sonoro Gran Turismo, tienda por tienda.</h1>
+      </div>
+      <div class="seccion-desc">
+        <p>Este es el sistema operativo sonoro de Gran Turismo. Define qué es, qué no es, y por qué lo que suena en cada tienda del país refuerza el argumento fundacional de la marca.</p>
+        <p>El documento comienza con el manifiesto sonoro y la paleta emocional que aplica a las 12 tiendas por igual. Luego desarrolla, una por una, la propuesta específica de cada uno de los 12 puntos de venta.</p>
+      </div>
+    </section>
+
+    <div class="manifiesto">
+      <div class="manifiesto-inner">
+        <div class="manifiesto-label">Misión Sonora</div>
+        <div class="manifiesto-frase">Sonar como la mujer que camina en nuestros zapatos.</div>
+      </div>
+    </div>
+
+    <div class="paleta-wrapper">
+      <div class="bloque-header" style="margin-bottom: 40px; padding-top: 60px;">
+        <div>
+          <div class="bloque-label">Paleta emocional</div>
+          <h2 class="bloque-titulo">Qué suena y qué no suena en Gran Turismo.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>Este es el piso mínimo compartido por las doce tiendas. Aplica antes de cualquier modulación por categoría o ciudad. Es la voz sonora común que hace reconocible a Gran Turismo esté donde esté.</p>
+        </div>
+      </div>
+
+      <div class="paleta-grid">
+        <div class="paleta-col si">
+          <div class="paleta-titulo si">Sí suena en GT</div>
+          <ul class="paleta-lista">
+            <li>Femenino contemporáneo con raíz cultural</li>
+            <li>Calidad de producción audible, cuidada</li>
+            <li>Presencia venezolana constante y activa</li>
+            <li>Artistas mujeres como protagonistas</li>
+            <li>Música que respira, no que satura</li>
+            <li>Curaduría con oficio y criterio</li>
+            <li>Tempo controlado, ni frío ni frenético</li>
+          </ul>
+        </div>
+        <div class="paleta-col no">
+          <div class="paleta-titulo">No suena en GT</div>
+          <ul class="paleta-lista">
+            <li>Playlists de radio genérica sin criterio</li>
+            <li>Reggaetón explícito o de contenido agresivo</li>
+            <li>Top 40 comercial internacional sin filtro</li>
+            <li>Música con volumen o energía invasivas</li>
+            <li>Piezas con letras despectivas hacia la mujer</li>
+            <li>Música que suene automatizada, sin curaduría</li>
+            <li>Repetición monótona del mismo hit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="tiendas-header">
+      <div class="bloque-header" style="margin-bottom: 0;">
+        <div>
+          <div class="bloque-label">Las doce tiendas</div>
+          <h2 class="bloque-titulo">Curaduría sonora punto por punto.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>Cada tienda se clasifica en su categoría socioeconómica, hereda el mood correspondiente y los géneros base, y recibe una capa curatorial específica adaptada a su ciudad y formato.</p>
+          <p>Los espacios marcados como <em>Referentes musicales por definir</em> serán completados con la propuesta curatorial de Federico Rodríguez durante la etapa de curaduría.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">01</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Centro Caracas</div>
+        <div class="tienda-metadata"><span>Caracas · Distrito Capital</span><span>130 m²</span><span>Apertura Octubre</span></div>
+        <div class="tienda-badge">Categoría C / D</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Popular con dignidad</div>
+        <div class="tienda-mood">Pop latino mainstream, reggaetón melódico (no explícito), salsa moderna, merengue clásico, pop venezolano. Esta tienda no debe sonar de segunda categoría: debe sonar digna, celebratoria, honesta. Ni condescendencia ni pretensión.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Merengue Clásico</span><span class="chip">Pop Venezolano</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">02</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Sambil Candelaria</div>
+        <div class="tienda-metadata"><span>Caracas · Distrito Capital</span><span>160 m²</span><span>Apertura Octubre</span></div>
+        <div class="tienda-badge">Categoría B / C</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Mainstream contemporáneo elegante</div>
+        <div class="tienda-mood">Puente entre lo aspiracional y lo cotidiano. Pop latino curado con criterio, indie latinoamericano, bossa y samba jazz, R&amp;B latino, algo de house tropical. Reconocible sin ser radio genérica. Contemporáneo sin ser efímero.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino Curado</span><span class="chip">Indie Latinoamericano</span><span class="chip">Bossa &amp; Samba Jazz</span><span class="chip">R&amp;B Latino</span><span class="chip">House Tropical</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">03</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Sambil Chacao</div>
+        <div class="tienda-metadata"><span>Caracas · Distrito Capital</span><span>66 m²</span><span>Apertura Octubre</span></div>
+        <div class="tienda-badge">Categoría B</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
+        <div class="tienda-mood">Cosmopolitismo con raíz. Referentes que combinan lo internacional aspiracional con lo latinoamericano refinado. La música clásica-europea sería impostada; la música urbana explícita sería fuera de lugar. El sweet spot es el cosmopolitismo con raíz venezolana subyacente.</div>
+        <div class="tienda-chips">
+          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Downtempo</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">04</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Centro Plaza</div>
+        <div class="tienda-metadata"><span>Caracas · Distrito Capital</span><span>67 m²</span><span>Abierta</span></div>
+        <div class="tienda-badge">Categoría B</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
+        <div class="tienda-mood">Cosmopolitismo con raíz. Referentes que combinan lo internacional aspiracional con lo latinoamericano refinado. La energía sube ligeramente respecto a Chacao por el perfil de clienta más profesional-ejecutiva del entorno.</div>
+        <div class="tienda-chips">
+          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Neo-Soul</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">05</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Sambil Barquisimeto</div>
+        <div class="tienda-metadata"><span>Barquisimeto · Lara</span><span>72 m²</span><span>Apertura Octubre</span></div>
+        <div class="tienda-badge">Categoría B</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
+        <div class="tienda-mood">Cosmopolitismo con raíz. Ajuste para Barquisimeto como capital musical de Venezuela: mayor incidencia de bossa, jazz latino y música venezolana instrumental. La clienta de Sambil Barquisimeto reconoce y aprecia el guiño local, aunque el conjunto se mantenga contemporáneo.</div>
+        <div class="tienda-chips">
+          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Jazz Latino</span><span class="chip">Instrumental Venezolano</span><span class="chip">R&amp;B Sofisticado</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">06</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Metrópolis Barquisimeto</div>
+        <div class="tienda-metadata"><span>Barquisimeto · Lara</span><span>60 m²</span><span>Apertura Noviembre</span></div>
+        <div class="tienda-badge">Categoría B / C</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Mainstream contemporáneo elegante</div>
+        <div class="tienda-mood">Puente aspiracional-cotidiano con acento barquisimetano. Pop latino curado, indie latinoamericano, samba jazz y algo de música tradicional venezolana bien producida. Un poco más cálida y celebratoria que su equivalente caraqueño.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino Curado</span><span class="chip">Indie Latinoamericano</span><span class="chip">Bossa &amp; Samba Jazz</span><span class="chip">Venezolana Contemporánea</span><span class="chip">R&amp;B Latino</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">07</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Centro Barquisimeto</div>
+        <div class="tienda-metadata"><span>Barquisimeto · Lara</span><span>160 m²</span><span>Apertura Noviembre</span></div>
+        <div class="tienda-badge">Categoría C / D</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Popular con dignidad</div>
+        <div class="tienda-mood">Pop latino mainstream, reggaetón melódico, salsa moderna, merengue clásico. En Barquisimeto el peso de la música tradicional venezolana crece: sube el volumen del guaguancó, del joropo llanero curado, del pop-son venezolano.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Merengue Clásico</span><span class="chip">Tradicional Venezolana</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">08</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">CC Galerías Plaza</div>
+        <div class="tienda-metadata"><span>Maracay · Aragua</span><span>60 m²</span><span>Apertura Noviembre</span></div>
+        <div class="tienda-badge">Categoría C</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Contemporáneo accesible</div>
+        <div class="tienda-mood">Femenino cotidiano bien hecho. Pop latino mainstream de calidad, ballad-pop venezolano contemporáneo, bossa nova accesible, algo de reggae-pop, salsa romántica curada. Música que la clienta reconoce y celebra sin sentir que le están vendiendo un estilo de vida ajeno.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino Mainstream</span><span class="chip">Ballad-Pop Venezolano</span><span class="chip">Bossa Nova Clásica</span><span class="chip">Reggae Pop</span><span class="chip">Salsa Romántica</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">09</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Centro Maracay</div>
+        <div class="tienda-metadata"><span>Maracay · Aragua</span><span>80 m²</span><span>Apertura Noviembre</span></div>
+        <div class="tienda-badge">Categoría C / D</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Popular con dignidad</div>
+        <div class="tienda-mood">Pop latino mainstream, reggaetón melódico, salsa moderna, merengue clásico. Maracay tiene un perfil más conservador-familiar: el peso del bolero clásico, la balada romántica y la salsa vieja crece dentro del sistema.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino</span><span class="chip">Bolero Clásico</span><span class="chip">Balada Romántica</span><span class="chip">Salsa Vieja</span><span class="chip">Merengue Clásico</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">10</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Centro Valencia</div>
+        <div class="tienda-metadata"><span>Valencia · Carabobo</span><span>220 m²</span><span>Apertura Noviembre</span></div>
+        <div class="tienda-badge">Categoría C / D</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Popular con dignidad</div>
+        <div class="tienda-mood">Formato de gran superficie (220 m²) en la ciudad natal de Gran Turismo. Pop latino mainstream, reggaetón melódico, salsa, merengue. Presencia elevada de música italiana clásica (Mina, Battisti) y venezolana como guiño a las raíces italianas de la casa y a la memoria valenciana.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Italiana Clásica</span><span class="chip">Venezolana Icónica</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">11</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">Zona Industrial Valencia</div>
+        <div class="tienda-metadata"><span>Valencia · Carabobo</span><span>50 m²</span><span>Abierta</span></div>
+        <div class="tienda-badge">Categoría C</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Contemporáneo accesible</div>
+        <div class="tienda-mood">Femenino cotidiano bien hecho, adaptado a un formato compacto de 50 m² con alta rotación. Pop latino mainstream de calidad, bossa clásica, ballad-pop venezolano, salsa romántica. Tempo un poco más ágil por el flujo esperado del formato.</div>
+        <div class="tienda-chips">
+          <span class="chip">Pop Latino Mainstream</span><span class="chip">Bossa Nova Clásica</span><span class="chip">Ballad-Pop Venezolano</span><span class="chip">Salsa Romántica</span><span class="chip">Latin Soul</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="tienda-card">
+      <div class="tienda-numero">12</div>
+      <div class="tienda-info">
+        <div class="tienda-nombre">La Viña</div>
+        <div class="tienda-metadata"><span>Valencia · Carabobo</span><span>140 m²</span><span>Abierta</span></div>
+        <div class="tienda-badge">Categoría B</div>
+      </div>
+      <div class="tienda-detalle">
+        <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
+        <div class="tienda-mood">Cosmopolitismo con raíz para Valencia B. Peso equilibrado entre lo aspiracional internacional (nu-jazz, indie latino elegante, R&amp;B sofisticado) y lo venezolano-italiano curado que respeta la memoria de la marca en su ciudad de origen.</div>
+        <div class="tienda-chips">
+          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">Italiana Cool Jazz</span><span class="chip">Venezolana Refinada</span>
+        </div>
+        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
+        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
+      </div>
+    </div>
+
+    <div class="firma-transversal">
+      <div>
+        <div class="bloque-label">Firma sonora transversal</div>
+        <h2 class="bloque-titulo" style="font-size: 32px; margin-bottom: 0;">Lo que suena en todas las tiendas.</h2>
+      </div>
+      <div class="firma-desc-block">
+        <p>Independientemente de categoría, ciudad o formato, hay una capa base sonora compartida por todas las tiendas Gran Turismo: la firma transversal. Son artistas y piezas que refuerzan el argumento fundacional "casa de calzado venezolano para la mujer venezolana", presentes como constante en la rotación de las doce tiendas.</p>
+        <p>Esta capa es lo que hace que una clienta reconozca instantáneamente que está en un Gran Turismo, esté donde esté. Sobre esta base común se aplica la modulación por categoría (los cuatro moods) y los matices por ciudad.</p>
+        <div class="tienda-placeholder-label" style="margin-top: 24px;">Artistas transversales por definir</div>
+        <div class="firma-transversal-placeholder">[ Espacio para completar con propuesta curatorial de Federico Rodríguez ]</div>
+      </div>
+    </div>
+
+    <footer class="seccion-footer">
+      <div class="footer-firma">Curated by <strong>Federico Rodríguez</strong>@musicari0</div>
+      <button class="footer-next" data-goto="inversion">Continuar a Inversión<span class="next-arrow"></span></button>
+    </footer>
+  </div>
+</div>
+
+<!-- SECCIÓN INVERSIÓN -->
+<div id="s-inversion" class="seccion">
+  <header class="seccion-header">
+    <div class="header-left">
+      <div class="brand-mark">GT.</div>
+      <div class="header-titulo-mini">Inversión</div>
+    </div>
+    <nav class="header-nav">
+      <button data-goto="menu">MENÚ</button>
+      <button data-goto="brand">◀ BRAND BOOK</button>
+      <button class="actual" data-color="inversion">INVERSIÓN</button>
+    </nav>
+  </header>
+
+  <div class="seccion-body">
+    <section class="seccion-hero">
+      <div>
+        <div class="seccion-numero">05 / Inversión</div>
+        <h1 class="seccion-titulo">Metodología, cronograma e inversión.</h1>
+      </div>
+      <div class="seccion-desc">
+        <p>El proyecto se estructura en cuatro etapas secuenciales, ejecutadas en un cronograma compacto de tres semanas con un hito intermedio de aprobación formal por parte de Gran Turismo antes de la implementación final.</p>
+        <p>La inversión contempla los servicios profesionales de curaduría sonora integral de las doce tiendas más un servicio mensual de mantenimiento y evolución continua, opcional y sin mínimo forzado.</p>
+      </div>
+    </section>
+
+    <div class="bloque-contenido" style="padding-top: 20px; padding-bottom: 40px;">
+      <div class="bloque-header">
+        <div>
+          <div class="bloque-label">Metodología</div>
+          <h2 class="bloque-titulo">Cuatro etapas de implementación.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>Cada etapa produce entregables concretos y verificables antes de pasar a la siguiente. El proyecto se construye desde su cimiento conceptual hasta su operación sostenible en manos del equipo de tiendas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="metodologia-grid">
+      <div class="etapa">
+        <div class="etapa-num">01</div>
+        <div class="etapa-info">
+          <h3>Auditoría</h3>
+          <h2>Diagnóstico técnico y curatorial</h2>
+          <p>Levantamiento del punto de partida real por tienda. Análisis de lo que suena hoy, cómo se opera, con qué equipo cuenta cada punto de venta y cuáles son las restricciones operativas del personal.</p>
+        </div>
+        <div class="etapa-entregables">
+          <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
+          <ul>
+            <li>Visita técnica a tiendas abiertas y revisión remota de las próximas a abrir</li>
+            <li>Entrevistas breves con gerencia comercial y personal de tienda</li>
+            <li>Mapeo del perfil de clienta cruzando el research con datos operativos</li>
+            <li>Identificación de problemas y carencias sonoras expuestas en este documento</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="etapa-num">02</div>
+        <div class="etapa-info">
+          <h3>Identidad</h3>
+          <h2>Diseño del brand book sonoro Gran Turismo</h2>
+          <p>Construcción del documento fundacional de la identidad sonora: misión sonora, principios rectores, paleta emocional, sistema de tres ejes de clasificación, moods por categoría y matices por ciudad.</p>
+        </div>
+        <div class="etapa-entregables">
+          <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
+          <ul>
+            <li>Definición de la misión sonora y los principios rectores de la marca</li>
+            <li>Desarrollo de la paleta emocional (qué suena y qué no suena en Gran Turismo)</li>
+            <li>Clasificación curatorial de las 12 tiendas en cuatro moods según categoría</li>
+            <li>Entrega del brand book sonoro como documento editorial permanente</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="etapa-num">03</div>
+        <div class="etapa-info">
+          <h3>Curaduría</h3>
+          <h2>Curaduría de las doce tiendas</h2>
+          <p>Diseño y armado de los playlists específicos por tienda, aplicando los criterios del brand book y ajustando cada selección al perfil concreto del punto de venta: categoría, contexto de la ciudad, formato y flujo esperado.</p>
+        </div>
+        <div class="etapa-entregables">
+          <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
+          <ul>
+            <li>Selección y curaduría de piezas por tienda, siguiendo el sistema de moods</li>
+            <li>Armado de playlists en Spotify, organizadas por tienda</li>
+            <li>Documentación del criterio detrás de cada selección para futura autonomía del equipo</li>
+            <li>Ajuste fino después de escuchas en sitio en las tiendas abiertas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="etapa-num">04</div>
+        <div class="etapa-info">
+          <h3>Operación</h3>
+          <h2>Protocolos y capacitación del equipo</h2>
+          <p>Diseño de los protocolos que garantizan que el sistema funcione día tras día sin fricción: cómo se opera, qué volumen, qué hacer si algo falla, quién es responsable en cada tienda. Capacitación al equipo para que el sistema no dependa de la memoria de una sola persona.</p>
+        </div>
+        <div class="etapa-entregables">
+          <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
+          <ul>
+            <li>Manual operativo breve por tienda con instrucciones concretas</li>
+            <li>Protocolo de gobernanza sonora: qué se puede y qué no se puede hacer</li>
+            <li>Capacitación remota o presencial al equipo gerencial de tiendas</li>
+            <li>Guía de troubleshooting para situaciones frecuentes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cronograma">
+      <div class="cronograma-label">Cronograma · 3 semanas</div>
+      <div class="cronograma-timeline">
+        <div class="crono-item"><div class="crono-num">Semana 01</div><div class="crono-titulo">Auditoría y diagnóstico por tienda</div></div>
+        <div class="crono-item"><div class="crono-num">Semana 02</div><div class="crono-titulo">Presentación del brand book y del sistema de curaduría</div></div>
+        <div class="crono-item-hito"><div class="crono-num">Hito</div><div class="crono-titulo">Aprobación GT</div></div>
+        <div class="crono-item"><div class="crono-num">Semana 03</div><div class="crono-titulo">Curaduría, protocolos y capacitación de equipos</div></div>
+      </div>
+    </div>
+
+    <div class="montos-wrapper">
+      <div class="bloque-header" style="padding-top: 20px; margin-bottom: 40px;">
+        <div>
+          <div class="bloque-label">Inversión</div>
+          <h2 class="bloque-titulo">Servicios profesionales y continuidad.</h2>
+        </div>
+        <div class="bloque-desc">
+          <p>El proyecto inicial cubre las cuatro etapas y los dos primeros meses de operación del sistema en tienda. A partir del tercer mes, un retainer opcional garantiza el mantenimiento y evolución continua de las playlists.</p>
+        </div>
+      </div>
+
+      <div class="montos-container">
+        <div class="monto-card principal">
+          <div class="monto-tipo">Servicios Profesionales</div>
+          <div class="monto-cifra"><sup>USD</sup>800</div>
+          <div class="monto-frecuencia">Pago único · Contra entrega final</div>
+          <div class="monto-desc">Incluye las cuatro etapas descritas —auditoría, identidad sonora, curaduría de las doce tiendas, protocolos operativos y capacitación del personal— más los <strong>dos primeros meses de operación</strong> del sistema en tienda.</div>
+        </div>
+        <div class="monto-card">
+          <div class="monto-tipo">Continuidad Mensual</div>
+          <div class="monto-cifra"><sup>USD</sup>400</div>
+          <div class="monto-frecuencia">Retainer mensual · Sin mínimo forzado</div>
+          <div class="monto-desc">Servicio de mantenimiento, actualización y evolución continua de las playlists de las doce tiendas, <strong>a partir del tercer mes de operación</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="horizonte-container">
+      <div class="horizonte-label">Horizonte · Posibles fases futuras</div>
+
+      <div class="fase-item">
+        <div class="fase-num">i.</div>
+        <div class="fase-titulo">Playlist oficial de Gran Turismo en Spotify</div>
+        <div class="fase-desc">Playlist con branding y arte propio en la cuenta de Spotify de Gran Turismo, curada para consumo fuera de tienda. Conecta con la comunidad digital de 158K seguidores en Instagram y 85K en TikTok, y funciona como extensión sonora de la marca en la vida cotidiana de la clienta.</div>
+      </div>
+
+      <div class="fase-item">
+        <div class="fase-num">ii.</div>
+        <div class="fase-titulo">Sonorización de GT Móvil y activaciones especiales</div>
+        <div class="fase-desc">Curaduría específica para el formato itinerante GT Móvil y para activaciones puntuales de marca (lanzamientos de colección, eventos con #SquadGT, presencia en ferias). Cada activación con su propio microuniverso sonoro dentro del sistema Gran Turismo.</div>
+      </div>
+
+      <div class="fase-item">
+        <div class="fase-num">iii.</div>
+        <div class="fase-titulo">Consultoría sonora para nuevas aperturas</div>
+        <div class="fase-desc">Extensión del sistema curatorial a cada nueva tienda que Gran Turismo abra a futuro. La nueva tienda se clasifica en el sistema de tres ejes y hereda automáticamente la curaduría de su categoría, con ajustes específicos por ciudad y formato.</div>
+      </div>
+    </div>
+
+    <footer class="seccion-footer">
+      <div class="footer-firma">Curated by <strong>Federico Rodríguez</strong>@musicari0</div>
+      <button class="footer-next" data-goto="menu">Volver al menú<span class="next-arrow"></span></button>
+    </footer>
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById('menu');
+  const secciones = document.querySelectorAll('.seccion');
+  const menuButtons = document.querySelectorAll('.menu-item');
+
+  function updateHash(hash) {
+    try { history.replaceState({}, '', hash); } catch (e) { /* iframe srcdoc no permite */ }
+  }
+
+  function showMenu() {
+    menu.style.display = 'flex';
+    secciones.forEach(s => s.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    updateHash('#');
+  }
+
+  function showSection(id) {
+    menu.style.display = 'none';
+    secciones.forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('s-' + id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      updateHash('#' + id);
+    }
+  }
+
+  menuButtons.forEach(btn => {
+    btn.addEventListener('click', () => showSection(btn.dataset.section));
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.goto;
+      if (target === 'menu') showMenu();
+      else showSection(target);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') showMenu();
+  });
+
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById('s-' + hash)) showSection(hash);
+  });
+</script>
+
+</body>
+</html>
