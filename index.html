@@ -92,30 +92,31 @@
   .menu-item[data-section="brand"] { background: var(--c-brand); }
   .menu-item[data-section="inversion"] { background: var(--c-inver); }
 
-  .menu-brand {
-    position: fixed;
-    top: 20px;
-    left: 24px;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-    z-index: 100;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    color: var(--blanco);
-  }
-
-  .menu-firma {
+  .menu-topbar {
     position: fixed;
     top: 20px;
     right: 24px;
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 4cm;
+  }
+
+  .menu-brand {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--negro);
+    white-space: nowrap;
+  }
+
+  .menu-firma {
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.02em;
-    z-index: 100;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    color: var(--blanco);
+    color: var(--negro);
     text-align: right;
     line-height: 1.4;
   }
@@ -237,11 +238,13 @@
 
   .seccion-desc {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.55;
     color: var(--negro);
-    padding-top: 6px;
+    padding-top: 37px;
   }
+
+  #s-diagnostico .seccion-desc { padding-top: 77px; }
 
   .seccion-desc p { margin-bottom: 14px; }
   .seccion-desc p:last-child { margin-bottom: 0; }
@@ -310,7 +313,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     margin-bottom: 60px;
-    align-items: end;
+    align-items: start;
   }
 
   .bloque-label {
@@ -331,9 +334,10 @@
   }
 
   .bloque-desc {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.55;
     color: var(--negro);
+    padding-top: 31px;
   }
 
   .bloque-desc p { margin-bottom: 14px; }
@@ -350,33 +354,34 @@
   }
 
   .escenario {
-    padding: 32px 28px;
+    padding: 48px 44px 52px;
     border-right: 1px solid var(--negro);
     border-bottom: 1px solid var(--negro);
   }
 
   .escenario-numero {
     font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: 13px;
+    letter-spacing: 0.12em;
     color: var(--c-diag);
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
 
   .escenario-titulo {
     font-weight: 600;
-    font-size: 20px;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    font-size: clamp(26px, 2.4vw, 34px);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
     color: var(--negro);
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
 
   .escenario-desc {
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: 18px;
+    line-height: 1.5;
     color: var(--negro);
+    max-width: 46ch;
   }
 
   .citas-container {
@@ -1066,6 +1071,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
+    .seccion-desc, .bloque-desc { padding-top: 0; }
     .seccion-hero,
     .metadata,
     .bloque-header,
@@ -1074,6 +1080,9 @@
       gap: 30px;
     }
     .escenarios-grid { grid-template-columns: 1fr; }
+    .escenario { padding: 36px 24px 40px; }
+    .escenario-titulo { font-size: 26px; }
+    .escenario-desc { font-size: 17px; }
     .ejes-grid { grid-template-columns: 1fr; }
     .paleta-grid { grid-template-columns: 1fr; }
     .paleta-col + .paleta-col { border-left: none; border-top: 1px solid var(--negro); }
@@ -1098,6 +1107,7 @@
 
   @media (max-width: 500px) {
     .menu-item { padding: 0 4vw; gap: 4vw; font-size: 36px; }
+    .menu-topbar { gap: 1.5cm; }
     .seccion-hero { padding: 40px 20px 60px; }
     .bloque-contenido { padding: 60px 20px; }
     .metadata { padding: 30px 20px 60px; grid-template-columns: 1fr; gap: 30px; }
@@ -1109,10 +1119,12 @@
 
 <!-- MENÚ PRINCIPAL -->
 <div id="menu" class="menu-principal">
-  <div class="menu-brand">GT.®</div>
-  <div class="menu-firma">
-    <span>Curated by Federico Rodríguez</span>
-    @musicari0
+  <div class="menu-topbar">
+    <div class="menu-brand">Gran Turismo®</div>
+    <div class="menu-firma">
+      <span>Curated by Federico Rodríguez</span>
+      @musicari0
+    </div>
   </div>
 
   <button class="menu-item" data-section="intro"><span class="triangle"></span>INTRO</button>
@@ -1140,7 +1152,7 @@
     <section class="seccion-hero">
       <div>
         <div class="seccion-numero">01 / Intro</div>
-        <h1 class="seccion-titulo">Gran Turismo suena como la mujer que camina en sus zapatos.</h1>
+        <h1 class="seccion-titulo">Setenta y cinco años de marca y una dimensión sin diseñar: el sonido.</h1>
       </div>
       <div class="seccion-desc">
         <p>Después de setenta y cinco años calzando a la mujer venezolana, hay una dimensión de la marca que hasta hoy no ha sido intencionalmente diseñada: la dimensión sonora. La música que ambienta el momento en que una clienta entra a probarse un par de zapatos para su próxima boda, su primer día en un nuevo trabajo, o simplemente para acompañarla en una tarde de sábado.</p>
