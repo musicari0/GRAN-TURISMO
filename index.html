@@ -246,6 +246,9 @@
 
   #s-diagnostico .seccion-desc { padding-top: 77px; }
 
+  #s-inversion .seccion-desc { padding-top: 77px; font-size: 18.5px; }
+  #s-inversion .bloque-desc { font-size: 18.5px; }
+
   .seccion-desc p { margin-bottom: 14px; }
   .seccion-desc p:last-child { margin-bottom: 0; }
 
@@ -590,6 +593,14 @@
     border-top: 1px solid var(--negro);
   }
 
+  .tiendas-header .bloque-header {
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+  }
+
+  .tiendas-header .bloque-header > div:first-child { grid-column: 1 / 3; }
+  .tiendas-header .bloque-header > .bloque-desc { grid-column: 3; }
+
   .tienda-card {
     max-width: 1400px;
     margin: 0 auto;
@@ -768,6 +779,31 @@
   }
 
   .etapa:last-child { border-bottom: 1px solid var(--negro); }
+
+  .etapa-hito {
+    border-top: 1px solid var(--negro);
+    background: var(--c-inver);
+    padding: 22px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .etapa-hito-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--negro);
+  }
+
+  .etapa-hito-titulo {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: var(--negro);
+  }
 
   .etapa-num {
     font-weight: 800;
@@ -1071,7 +1107,11 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    .seccion-desc, .bloque-desc { padding-top: 0; }
+    .seccion-desc, .bloque-desc,
+    #s-inversion .seccion-desc, #s-diagnostico .seccion-desc { padding-top: 0; }
+    .tiendas-header .bloque-header { grid-template-columns: 1fr; }
+    .tiendas-header .bloque-header > div:first-child,
+    .tiendas-header .bloque-header > .bloque-desc { grid-column: 1; }
     .seccion-hero,
     .metadata,
     .bloque-header,
@@ -1250,7 +1290,7 @@
     </div>
 
     <div class="bloque-contenido" style="padding-top: 20px;">
-      <div class="bloque-header">
+      <div class="bloque-header" style="align-items: center;">
         <div>
           <div class="bloque-label">La oportunidad</div>
           <h2 class="bloque-titulo">La música es la herramienta estratégica más subutilizada en el retail venezolano.</h2>
@@ -1266,21 +1306,21 @@
       <div class="cita-item">
         <div class="cita-numero">Estudio 01</div>
         <div class="cita-contenido">
-          Música congruente con el origen del producto <strong>amplifica sus ventas hasta un 330%</strong>. Aplicado a Gran Turismo: música venezolana curada en tienda venezolana amplifica la percepción de valor del producto venezolano. Es un argumento comercial, no cultural.
-          <div class="cita-fuente">North, Hargreaves &amp; McKendrick — Nature (1999)</div>
+          Con música francesa de fondo, el vino francés se vendió en proporción <strong>5 a 1</strong> sobre el alemán; con música alemana, el alemán superó al francés 2 a 1. La música congruente con el origen del producto orienta la elección de compra. Aplicado a Gran Turismo: música venezolana curada en tienda venezolana refuerza la percepción de valor del producto venezolano. Es un argumento comercial, no cultural.
+          <div class="cita-fuente">North, Hargreaves &amp; McKendrick — Nature (1997)</div>
         </div>
       </div>
       <div class="cita-item">
         <div class="cita-numero">Estudio 02</div>
         <div class="cita-contenido">
-          La música de tempo controlado puede <strong>aumentar el tiempo de permanencia en tienda hasta un 38%</strong>, con impacto directo en el ticket promedio de compra.
+          Con música de tempo lento en lugar de rápido, el volumen diario de ventas subió <strong>38,2%</strong>. El tiempo de permanencia en tienda también aumentó, en torno a un 17%. El tempo se controla; el ticket promedio responde.
           <div class="cita-fuente">Ronald E. Milliman — Journal of Marketing (1982)</div>
         </div>
       </div>
       <div class="cita-item">
         <div class="cita-numero">Estudio 03</div>
         <div class="cita-contenido">
-          La música con criterio aspiracional <strong>lleva al consumidor a elegir productos de mayor gama</strong> dentro del mismo portafolio. Alza sostenida del ticket promedio sin requerir cambios en el producto ni en el precio.
+          Con música clásica en lugar de Top 40, los clientes no compraron más botellas, pero sí <strong>botellas más caras</strong>. La música con criterio aspiracional eleva el ticket promedio dentro del mismo portafolio, sin cambios en la oferta ni en los precios.
           <div class="cita-fuente">Areni &amp; Kim — Advances in Consumer Research (1993)</div>
         </div>
       </div>
@@ -1327,7 +1367,7 @@
           <h2 class="bloque-titulo">Tres ejes cruzados por cada tienda.</h2>
         </div>
         <div class="bloque-desc">
-          <p>La propuesta sonora se construye cruzando tres ejes de análisis por cada punto de venta. Este marco convierte cada playlist en una decisión estratégica defendible, no en una preferencia estética arbitraria.</p>
+          <p>La propuesta sonora se construye cruzando tres ejes de análisis por cada tienda Gran Turismo. Este marco convierte cada playlist en una decisión estratégica defendible, no en una preferencia estética arbitraria.</p>
         </div>
       </div>
     </div>
@@ -1416,7 +1456,6 @@
             <li>Femenino contemporáneo con raíz cultural</li>
             <li>Calidad de producción audible, cuidada</li>
             <li>Presencia venezolana constante y activa</li>
-            <li>Artistas mujeres como protagonistas</li>
             <li>Música que respira, no que satura</li>
             <li>Curaduría con oficio y criterio</li>
             <li>Tempo controlado, ni frío ni frenético</li>
@@ -1426,8 +1465,7 @@
           <div class="paleta-titulo">No suena en GT</div>
           <ul class="paleta-lista">
             <li>Playlists de radio genérica sin criterio</li>
-            <li>Reggaetón explícito o de contenido agresivo</li>
-            <li>Top 40 comercial internacional sin filtro</li>
+            <li>Hot 100 sin filtro</li>
             <li>Música con volumen o energía invasivas</li>
             <li>Piezas con letras despectivas hacia la mujer</li>
             <li>Música que suene automatizada, sin curaduría</li>
@@ -1445,7 +1483,6 @@
         </div>
         <div class="bloque-desc">
           <p>Cada tienda se clasifica en su categoría socioeconómica, hereda el mood correspondiente y los géneros base, y recibe una capa curatorial específica adaptada a su ciudad y formato.</p>
-          <p>Los espacios marcados como <em>Referentes musicales por definir</em> serán completados con la propuesta curatorial de Federico Rodríguez durante la etapa de curaduría.</p>
         </div>
       </div>
     </div>
@@ -1463,8 +1500,6 @@
         <div class="tienda-chips">
           <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Merengue Clásico</span><span class="chip">Pop Venezolano</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1476,13 +1511,11 @@
         <div class="tienda-badge">Categoría B / C</div>
       </div>
       <div class="tienda-detalle">
-        <div class="tienda-mood-label">Mood · Mainstream contemporáneo elegante</div>
+        <div class="tienda-mood-label">Mood · Mainstream / Contemporáneo elegante</div>
         <div class="tienda-mood">Puente entre lo aspiracional y lo cotidiano. Pop latino curado con criterio, indie latinoamericano, bossa y samba jazz, R&amp;B latino, algo de house tropical. Reconocible sin ser radio genérica. Contemporáneo sin ser efímero.</div>
         <div class="tienda-chips">
-          <span class="chip">Pop Latino Curado</span><span class="chip">Indie Latinoamericano</span><span class="chip">Bossa &amp; Samba Jazz</span><span class="chip">R&amp;B Latino</span><span class="chip">House Tropical</span>
+          <span class="chip">House</span><span class="chip">Afro House</span><span class="chip">Deep House</span><span class="chip">Jazz House</span><span class="chip">Pop Latino Curado</span><span class="chip">Indie Latinoamericano</span><span class="chip">Bossa &amp; Samba Jazz</span><span class="chip">R&amp;B Latino</span><span class="chip">House Tropical</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1497,10 +1530,8 @@
         <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
         <div class="tienda-mood">Cosmopolitismo con raíz. Referentes que combinan lo internacional aspiracional con lo latinoamericano refinado. La música clásica-europea sería impostada; la música urbana explícita sería fuera de lugar. El sweet spot es el cosmopolitismo con raíz venezolana subyacente.</div>
         <div class="tienda-chips">
-          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Downtempo</span>
+          <span class="chip">House</span><span class="chip">Deep House</span><span class="chip">Jazz House</span><span class="chip">Nu Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Downtempo</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1515,10 +1546,8 @@
         <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
         <div class="tienda-mood">Cosmopolitismo con raíz. Referentes que combinan lo internacional aspiracional con lo latinoamericano refinado. La energía sube ligeramente respecto a Chacao por el perfil de clienta más profesional-ejecutiva del entorno.</div>
         <div class="tienda-chips">
-          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Neo-Soul</span>
+          <span class="chip">House</span><span class="chip">Deep House</span><span class="chip">Jazz House</span><span class="chip">Nu Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">House Melódico</span><span class="chip">Neo-Soul</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1533,10 +1562,8 @@
         <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
         <div class="tienda-mood">Cosmopolitismo con raíz. Ajuste para Barquisimeto como capital musical de Venezuela: mayor incidencia de bossa, jazz latino y música venezolana instrumental. La clienta de Sambil Barquisimeto reconoce y aprecia el guiño local, aunque el conjunto se mantenga contemporáneo.</div>
         <div class="tienda-chips">
-          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Jazz Latino</span><span class="chip">Instrumental Venezolano</span><span class="chip">R&amp;B Sofisticado</span>
+          <span class="chip">House</span><span class="chip">Deep House</span><span class="chip">Jazz House</span><span class="chip">Nu Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Jazz Latino</span><span class="chip">Instrumental Venezolano</span><span class="chip">R&amp;B Sofisticado</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1548,13 +1575,11 @@
         <div class="tienda-badge">Categoría B / C</div>
       </div>
       <div class="tienda-detalle">
-        <div class="tienda-mood-label">Mood · Mainstream contemporáneo elegante</div>
+        <div class="tienda-mood-label">Mood · Mainstream / Contemporáneo elegante</div>
         <div class="tienda-mood">Puente aspiracional-cotidiano con acento barquisimetano. Pop latino curado, indie latinoamericano, samba jazz y algo de música tradicional venezolana bien producida. Un poco más cálida y celebratoria que su equivalente caraqueño.</div>
         <div class="tienda-chips">
           <span class="chip">Pop Latino Curado</span><span class="chip">Indie Latinoamericano</span><span class="chip">Bossa &amp; Samba Jazz</span><span class="chip">Venezolana Contemporánea</span><span class="chip">R&amp;B Latino</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1571,8 +1596,6 @@
         <div class="tienda-chips">
           <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Merengue Clásico</span><span class="chip">Tradicional Venezolana</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1587,10 +1610,8 @@
         <div class="tienda-mood-label">Mood · Contemporáneo accesible</div>
         <div class="tienda-mood">Femenino cotidiano bien hecho. Pop latino mainstream de calidad, ballad-pop venezolano contemporáneo, bossa nova accesible, algo de reggae-pop, salsa romántica curada. Música que la clienta reconoce y celebra sin sentir que le están vendiendo un estilo de vida ajeno.</div>
         <div class="tienda-chips">
-          <span class="chip">Pop Latino Mainstream</span><span class="chip">Ballad-Pop Venezolano</span><span class="chip">Bossa Nova Clásica</span><span class="chip">Reggae Pop</span><span class="chip">Salsa Romántica</span>
+          <span class="chip">Pop Latino Mainstream</span><span class="chip">Pop Venezolano</span><span class="chip">Bossa Nova Clásica</span><span class="chip">Reggae Pop</span><span class="chip">Salsa Romántica</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1603,12 +1624,10 @@
       </div>
       <div class="tienda-detalle">
         <div class="tienda-mood-label">Mood · Popular con dignidad</div>
-        <div class="tienda-mood">Pop latino mainstream, reggaetón melódico, salsa moderna, merengue clásico. Maracay tiene un perfil más conservador-familiar: el peso del bolero clásico, la balada romántica y la salsa vieja crece dentro del sistema.</div>
+        <div class="tienda-mood">Pop latino mainstream, reggaetón melódico, salsa moderna, merengue clásico. Maracay tiene un perfil más conservador-familiar: el peso del bolero clásico, la balada romántica y la salsa clásica crece dentro del sistema.</div>
         <div class="tienda-chips">
-          <span class="chip">Pop Latino</span><span class="chip">Bolero Clásico</span><span class="chip">Balada Romántica</span><span class="chip">Salsa Vieja</span><span class="chip">Merengue Clásico</span>
+          <span class="chip">Pop Latino</span><span class="chip">Afro House</span><span class="chip">Bolero Clásico</span><span class="chip">Balada Romántica</span><span class="chip">Salsa Clásica</span><span class="chip">Merengue Clásico</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1623,10 +1642,8 @@
         <div class="tienda-mood-label">Mood · Popular con dignidad</div>
         <div class="tienda-mood">Formato de gran superficie (220 m²) en la ciudad natal de Gran Turismo. Pop latino mainstream, reggaetón melódico, salsa, merengue. Presencia elevada de música italiana clásica (Mina, Battisti) y venezolana como guiño a las raíces italianas de la casa y a la memoria valenciana.</div>
         <div class="tienda-chips">
-          <span class="chip">Pop Latino</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Italiana Clásica</span><span class="chip">Venezolana Icónica</span>
+          <span class="chip">Pop Latino</span><span class="chip">Afro House</span><span class="chip">Reggaetón Melódico</span><span class="chip">Salsa Moderna</span><span class="chip">Salsa Clásica</span><span class="chip">Reggae Pop</span><span class="chip">Merengue Clásico</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1641,10 +1658,8 @@
         <div class="tienda-mood-label">Mood · Contemporáneo accesible</div>
         <div class="tienda-mood">Femenino cotidiano bien hecho, adaptado a un formato compacto de 50 m² con alta rotación. Pop latino mainstream de calidad, bossa clásica, ballad-pop venezolano, salsa romántica. Tempo un poco más ágil por el flujo esperado del formato.</div>
         <div class="tienda-chips">
-          <span class="chip">Pop Latino Mainstream</span><span class="chip">Bossa Nova Clásica</span><span class="chip">Ballad-Pop Venezolano</span><span class="chip">Salsa Romántica</span><span class="chip">Latin Soul</span>
+          <span class="chip">Pop Latino Mainstream</span><span class="chip">Ballad-Pop Venezolano</span><span class="chip">Reggae Pop</span><span class="chip">Salsa Romántica</span><span class="chip">Latin Soul</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
       </div>
     </div>
 
@@ -1659,23 +1674,8 @@
         <div class="tienda-mood-label">Mood · Aspiracional sofisticada</div>
         <div class="tienda-mood">Cosmopolitismo con raíz para Valencia B. Peso equilibrado entre lo aspiracional internacional (nu-jazz, indie latino elegante, R&amp;B sofisticado) y lo venezolano-italiano curado que respeta la memoria de la marca en su ciudad de origen.</div>
         <div class="tienda-chips">
-          <span class="chip">Nu-Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">Italiana Cool Jazz</span><span class="chip">Venezolana Refinada</span>
+          <span class="chip">House</span><span class="chip">Deep House</span><span class="chip">Jazz House</span><span class="chip">Nu Jazz</span><span class="chip">Bossa Contemporánea</span><span class="chip">Indie Latino Elegante</span><span class="chip">R&amp;B Sofisticado</span><span class="chip">Cool Jazz</span><span class="chip">Venezolana Refinada</span>
         </div>
-        <div class="tienda-placeholder-label">Referentes musicales por definir</div>
-        <div class="tienda-placeholder">Espacio para completar con propuesta curatorial de Federico Rodríguez</div>
-      </div>
-    </div>
-
-    <div class="firma-transversal">
-      <div>
-        <div class="bloque-label">Firma sonora transversal</div>
-        <h2 class="bloque-titulo" style="font-size: 32px; margin-bottom: 0;">Lo que suena en todas las tiendas.</h2>
-      </div>
-      <div class="firma-desc-block">
-        <p>Independientemente de categoría, ciudad o formato, hay una capa base sonora compartida por todas las tiendas Gran Turismo: la firma transversal. Son artistas y piezas que refuerzan el argumento fundacional "casa de calzado venezolano para la mujer venezolana", presentes como constante en la rotación de las doce tiendas.</p>
-        <p>Esta capa es lo que hace que una clienta reconozca instantáneamente que está en un Gran Turismo, esté donde esté. Sobre esta base común se aplica la modulación por categoría (los cuatro moods) y los matices por ciudad.</p>
-        <div class="tienda-placeholder-label" style="margin-top: 24px;">Artistas transversales por definir</div>
-        <div class="firma-transversal-placeholder">[ Espacio para completar con propuesta curatorial de Federico Rodríguez ]</div>
       </div>
     </div>
 
@@ -1704,10 +1704,10 @@
     <section class="seccion-hero">
       <div>
         <div class="seccion-numero">05 / Inversión</div>
-        <h1 class="seccion-titulo">Metodología, cronograma e inversión.</h1>
+        <h1 class="seccion-titulo">Metodología e inversión.</h1>
       </div>
       <div class="seccion-desc">
-        <p>El proyecto se estructura en cuatro etapas secuenciales, ejecutadas en un cronograma compacto de tres semanas con un hito intermedio de aprobación formal por parte de Gran Turismo antes de la implementación final.</p>
+        <p>El proyecto se estructura en tres etapas secuenciales, con un hito intermedio de aprobación formal por parte de Gran Turismo antes de la implementación final.</p>
         <p>La inversión contempla los servicios profesionales de curaduría sonora integral de las doce tiendas más un servicio mensual de mantenimiento y evolución continua, opcional y sin mínimo forzado.</p>
       </div>
     </section>
@@ -1716,7 +1716,7 @@
       <div class="bloque-header">
         <div>
           <div class="bloque-label">Metodología</div>
-          <h2 class="bloque-titulo">Cuatro etapas de implementación.</h2>
+          <h2 class="bloque-titulo">Tres etapas de implementación.</h2>
         </div>
         <div class="bloque-desc">
           <p>Cada etapa produce entregables concretos y verificables antes de pasar a la siguiente. El proyecto se construye desde su cimiento conceptual hasta su operación sostenible en manos del equipo de tiendas.</p>
@@ -1728,31 +1728,15 @@
       <div class="etapa">
         <div class="etapa-num">01</div>
         <div class="etapa-info">
-          <h3>Auditoría</h3>
-          <h2>Diagnóstico técnico y curatorial</h2>
-          <p>Levantamiento del punto de partida real por tienda. Análisis de lo que suena hoy, cómo se opera, con qué equipo cuenta cada punto de venta y cuáles son las restricciones operativas del personal.</p>
+          <h3>Auditoría e identidad</h3>
+          <h2>Diagnóstico técnico, diseño del brand book y entrega de propuesta</h2>
+          <p>Levantamiento remoto del punto de partida por tienda y construcción del documento fundacional de la identidad sonora: misión sonora, principios rectores, paleta emocional, sistema de tres ejes de clasificación, moods por categoría y matices por ciudad.</p>
         </div>
         <div class="etapa-entregables">
           <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
           <ul>
-            <li>Visita técnica a tiendas abiertas y revisión remota de las próximas a abrir</li>
-            <li>Entrevistas breves con gerencia comercial y personal de tienda</li>
+            <li>Revisión remota de las doce tiendas a partir de material enviado por la marca</li>
             <li>Mapeo del perfil de clienta cruzando el research con datos operativos</li>
-            <li>Identificación de problemas y carencias sonoras expuestas en este documento</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="etapa">
-        <div class="etapa-num">02</div>
-        <div class="etapa-info">
-          <h3>Identidad</h3>
-          <h2>Diseño del brand book sonoro Gran Turismo</h2>
-          <p>Construcción del documento fundacional de la identidad sonora: misión sonora, principios rectores, paleta emocional, sistema de tres ejes de clasificación, moods por categoría y matices por ciudad.</p>
-        </div>
-        <div class="etapa-entregables">
-          <div class="etapa-entregables-label">Cómo se lleva a cabo</div>
-          <ul>
             <li>Definición de la misión sonora y los principios rectores de la marca</li>
             <li>Desarrollo de la paleta emocional (qué suena y qué no suena en Gran Turismo)</li>
             <li>Clasificación curatorial de las 12 tiendas en cuatro moods según categoría</li>
@@ -1761,8 +1745,13 @@
         </div>
       </div>
 
+      <div class="etapa-hito">
+        <div class="etapa-hito-label">Hito</div>
+        <div class="etapa-hito-titulo">Aprobación de propuesta</div>
+      </div>
+
       <div class="etapa">
-        <div class="etapa-num">03</div>
+        <div class="etapa-num">02</div>
         <div class="etapa-info">
           <h3>Curaduría</h3>
           <h2>Curaduría de las doce tiendas</h2>
@@ -1774,13 +1763,13 @@
             <li>Selección y curaduría de piezas por tienda, siguiendo el sistema de moods</li>
             <li>Armado de playlists en Spotify, organizadas por tienda</li>
             <li>Documentación del criterio detrás de cada selección para futura autonomía del equipo</li>
-            <li>Ajuste fino después de escuchas en sitio en las tiendas abiertas</li>
+            <li>Ajuste fino a partir de la retroalimentación del equipo de cada tienda</li>
           </ul>
         </div>
       </div>
 
       <div class="etapa">
-        <div class="etapa-num">04</div>
+        <div class="etapa-num">03</div>
         <div class="etapa-info">
           <h3>Operación</h3>
           <h2>Protocolos y capacitación del equipo</h2>
@@ -1798,16 +1787,6 @@
       </div>
     </div>
 
-    <div class="cronograma">
-      <div class="cronograma-label">Cronograma · 3 semanas</div>
-      <div class="cronograma-timeline">
-        <div class="crono-item"><div class="crono-num">Semana 01</div><div class="crono-titulo">Auditoría y diagnóstico por tienda</div></div>
-        <div class="crono-item"><div class="crono-num">Semana 02</div><div class="crono-titulo">Presentación del brand book y del sistema de curaduría</div></div>
-        <div class="crono-item-hito"><div class="crono-num">Hito</div><div class="crono-titulo">Aprobación GT</div></div>
-        <div class="crono-item"><div class="crono-num">Semana 03</div><div class="crono-titulo">Curaduría, protocolos y capacitación de equipos</div></div>
-      </div>
-    </div>
-
     <div class="montos-wrapper">
       <div class="bloque-header" style="padding-top: 20px; margin-bottom: 40px;">
         <div>
@@ -1815,7 +1794,7 @@
           <h2 class="bloque-titulo">Servicios profesionales y continuidad.</h2>
         </div>
         <div class="bloque-desc">
-          <p>El proyecto inicial cubre las cuatro etapas y los dos primeros meses de operación del sistema en tienda. A partir del tercer mes, un retainer opcional garantiza el mantenimiento y evolución continua de las playlists.</p>
+          <p>El proyecto inicial cubre las tres etapas hasta la puesta en marcha del sistema en tienda. A partir de ahí, un retainer opcional garantiza el mantenimiento y evolución continua de las playlists.</p>
         </div>
       </div>
 
@@ -1824,13 +1803,13 @@
           <div class="monto-tipo">Servicios Profesionales</div>
           <div class="monto-cifra"><sup>USD</sup>800</div>
           <div class="monto-frecuencia">Pago único · Contra entrega final</div>
-          <div class="monto-desc">Incluye las cuatro etapas descritas —auditoría, identidad sonora, curaduría de las doce tiendas, protocolos operativos y capacitación del personal— más los <strong>dos primeros meses de operación</strong> del sistema en tienda.</div>
+          <div class="monto-desc">Incluye las tres etapas descritas —auditoría e identidad sonora, curaduría de las doce tiendas, protocolos operativos y capacitación del personal— hasta la <strong>puesta en marcha</strong> del sistema en tienda.</div>
         </div>
         <div class="monto-card">
           <div class="monto-tipo">Continuidad Mensual</div>
           <div class="monto-cifra"><sup>USD</sup>400</div>
           <div class="monto-frecuencia">Retainer mensual · Sin mínimo forzado</div>
-          <div class="monto-desc">Servicio de mantenimiento, actualización y evolución continua de las playlists de las doce tiendas, <strong>a partir del tercer mes de operación</strong>.</div>
+          <div class="monto-desc">Servicio de mantenimiento, actualización y evolución continua de las playlists de las doce tiendas, <strong>a partir del segundo mes de operación</strong>.</div>
         </div>
       </div>
     </div>
